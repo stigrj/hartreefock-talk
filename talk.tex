@@ -1,4 +1,4 @@
-\documentclass[slides]{beamer}
+\documentclass[mathserif]{beamer}
 \usepackage[framesassubsections]{beamerprosper}
 
 %%%%%%%%%%%% COULEURS %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -9,14 +9,14 @@
   \definecolor{sidebackground}{RGB}{230,242,250}
   \color{beamerstructure}
   \usetheme{Boadilla}
-  \usepackage{times}
+  \usepackage{courier}
   \beamertemplateballitem
 }
 \usebackgroundtemplate{\includegraphics[width=1.02\paperwidth]{../templets/CTCCGeneral.png}}
 
 \usepackage{multicol}
 \title{$\;$\\$\;$\\$\;$\\$\;$\\\textcolor{blue}
-							{Chemistry at the basis set limit}}
+							{Low scaling Hartree-Fock}}
 \subtitle{$\;$\textcolor{blue}
 							{using multiwavelets}}
 \author{Stig Rune Jensen}
@@ -40,6 +40,7 @@
 \begin{frame}
 	\frametitle{Outlook}
 	\begin{itemize}
+		\item Why low-scaling?
 		\item The multiwavelet basis
 		\begin{itemize}
 			\scriptsize
@@ -48,29 +49,29 @@
 		\end{itemize}
 		\ \\
 		\ \\
-		\item DFT in the MW basis
+		\item Hartree-Fock in the MW basis
 		\begin{itemize}
 			\scriptsize
-			\item Kohn-Sham equations
-			\item One-electron systems
-			\item Many-electron systems
-			\item SCF algorithm
+			\item Hartree-Fock equations
+			\item The exchange operator
+			\item Canonical orbitals
+			\item Localized orbitals
 		\end{itemize}
 		\ \\
 		\ \\
 		\item Results
 		\begin{itemize}
 			\scriptsize
-			\item Closed shell atoms LDA
-			\item Open shell atoms LSDA
-			\item Small molecules GGA
+			\item Scaling canonical orbitals
+			\item Scaling localized orbitals
+			\item Accurate calculations
 		\end{itemize}
 	\end{itemize}
 	\ \\
 	\ \\
 	\tiny
-	\it{R. J. Harrison et al.; "Multiresolution Quantum Chemistry: Basic theory and initial 
-	    applications", JCP (2004)}
+	\it{R. J. Harrison et al.; "Multiresolution Quantum Chemistry: Hartree-Fock exchange,
+		JCP (2004)}
 \end{frame}
 
 \begin{frame}
@@ -98,6 +99,11 @@
     \includegraphics[scale=0.2]{figures/adapGrid.pdf}
     \end{center}
 \end{frame}
+
+%\begin{frame}
+%	\frametitle{Why low-scaling?}
+%	XKCD plot
+%\end{frame}
 
 %\begin{frame}
 %    \frametitle{Functions in the MW basis}
@@ -129,17 +135,12 @@
 	    \ \\
 	    \ \\
 	\item Bound State Helmholtz (BSH) kernel (Kohn-Sham equations)
-	    \ \\
-	    \ \\
-	    \ \\
-	\item Derivative kernel
     \end{itemize}
     \end{column}
     \begin{column}{.48\textwidth}
     \ \\
     \begin{equation}
 	\nonumber
-	\scriptsize
 	P(\boldsymbol{r}-\boldsymbol{r}') = 
 	    \frac{1}{4\pi}\ \frac{1}{|\boldsymbol{r}-\boldsymbol{r}'|}
     \end{equation}
@@ -147,16 +148,8 @@
     \ \\
     \begin{equation}
 	\nonumber
-	\scriptsize
 	H^{\mu}(\boldsymbol{r}-\boldsymbol{r}') = \frac{1}{4\pi}\ 
 	    \frac{e^{-\mu |\boldsymbol{r}-\boldsymbol{r}'|}}{|\boldsymbol{r}-\boldsymbol{r}'|}
-    \end{equation}
-    \ \\
-    \ \\
-    \begin{equation}
-	\nonumber
-	\scriptsize
-	D_x(x-x') = \frac{d}{dx} \delta(x - x')
     \end{equation}
     \end{column}
     \end{columns}
@@ -198,146 +191,6 @@
 	\tiny \it{M. H. Kalos; "Monte Carlo calculations of the ground state of three- and 
 	    four-body nuclei", Physical Review (1962)}
 \end{frame}
-
-%\begin{frame}
-%	\frametitle{Power iteration and Newton's method}
-%	The series
-%	\begin{equation}
-%		\nonumber
-%		A\phi, A^2\phi, A^3\phi, \dots, A^n\phi
-%	\end{equation}
-%	\ \\
-%	\ \\
-%	will converge to the egenfunction of A with the highest eigenvalue 
-%	(absolute value).
-%	\ \\
-%	\ \\
-%	Straightforward power iteration of the integral operator gives
-%	\begin{equation}
-%		\nonumber
-%		\phi^{n+1} = \hat{H}\big[V_{eff}\phi^n\big]
-%	\end{equation}
-%	We search the root of the following function
-%	\begin{equation}
-%		\nonumber
-%		f(\phi) = \hat{H}\big[V_{eff}\phi\big] -\phi
-%	\end{equation}
-%	Newton's method for finding roots
-%	\begin{align}
-%		\nonumber
-%		\phi^{n+1} 
-%		&= \phi^n - \big[J(\phi^n)\big]^{-1} f(\phi^n)\\
-%		\nonumber
-%		&= \phi^n - \big[J(\phi^n)\big]^{-1}
-%		\big(\hat{H}\big[V_{eff}\phi^n\big] - \phi^n\big)
-%	\end{align}
-%	So the direct power iteration is an "inexact" Newton method where we
-%	approximate the Jacobian $J(\phi^n) \approx -1$.
-%\end{frame}
-%
-%\begin{frame}
-%	\frametitle{Krylov Accelerated Inexact Newton (KAIN)}
-%	We want to use the history of the orbital
-%	\begin{equation}
-%		\nonumber
-%		\phi^0, \phi^1, \dots, \phi^n
-%	\end{equation}
-%	and its residual
-%	\begin{equation}
-%		\nonumber
-%		f(\phi^0), f(\phi^1), \dots, f(\phi^n)
-%	\end{equation}
-%	\ \\
-%	\ \\
-%	to find a better approximation of the Jacobian.
-%	\ \\
-%	\ \\
-%	The new iterative step is then expanded in the Krylov history
-%	\begin{equation}
-%		\nonumber
-%		\phi^{n+1} = \phi^{n} + \delta\phi^{n}
-%	\end{equation}
-%	\begin{equation}
-%		\nonumber
-%		\delta\phi^n = \sum_i c_i\big[\phi^i-\phi^n\big] - 
-%		\sum_i c_i\big[f(\phi^i) - f(\phi^n)\big] - f(\phi^n)
-%	\end{equation}
-%	where the coefficients $c_i$ are computed by projection.\\
-%	\ \\
-%	\tiny \it{R. J. Harrison; "Krylov subspace accelerated inexact Newton method for linear
-%	    and nonlinear equations", JCC (2004)}
-%\end{frame}
-
-\begin{frame}
-	\frametitle{Hydrogen ground state}
-	Effective potential is just nuclear attraction
-	\begin{equation}
-		\nonumber
-		V_{eff} = V_{nuc}(\boldsymbol{r}) = 
-		-\sum_i \frac{Z_i}{|\boldsymbol{r}-\boldsymbol{R}_i|}
-	\end{equation}
-	\ \\
-	Ground state is obtained through iterative solution of
-	\begin{equation}
-	    \nonumber
-	    \phi^{n+1}(\boldsymbol{r}) =\ -2\int H^{\mu^n}(\boldsymbol{r}-\boldsymbol{r}')\
-		\Big[V_{nuc}(\boldsymbol{r}')\ \phi^n(\boldsymbol{r}')\Big] d\boldsymbol{r}'
-	\end{equation}
-	\pause
-	\begin{table}
-		\tiny
-		\centering
-		\begin{tabular}{|r|r@{.}l|r@{.}l@{e}l|r@{.}l@e{l}|
-				r@{.}l|r@{.}l@{e}l|r@{.}l@e{l}|}
-			\hline
-			&
-			\multicolumn{8}{c|}{Power iteration}&
-			\multicolumn{8}{c|}{Krylov accelerated}\\
-			Iteration&
-			\multicolumn{2}{c|}{$E$}&
-			\multicolumn{3}{c|}{$\Delta E$}&
-			\multicolumn{3}{c|}{$\Delta \phi$}&
-			\multicolumn{2}{c|}{$E$}&
-			\multicolumn{3}{c|}{$\Delta E$}&
-			\multicolumn{3}{c|}{$\Delta \phi$}\\
-			\hline
-			 1&-0&49844793&-6&18&-03&6&77&-02&-0&49844793&-6&18&-03&6&77&-02\\
-			 2&-0&49964578&-1&19&-03&2&87&-02&-0&50056792&-2&12&-03&2&87&-02\\
-			 3&-0&49991507&-2&69&-04&1&34&-02&-0&49982342& 7&44&-04&1&69&-03\\
-			 4&-0&49997918&-6&41&-05&6&53&-03&-0&50012138&-2&98&-04&4&66&-04\\
-			 5&-0&49999484&-1&57&-05&3&22&-03&-0&49999713& 1&24&-04&2&27&-04\\
-			 6&-0&49999870&-3&87&-06&1&60&-03&-0&49999977&-2&64&-06&3&29&-06\\
-			 7&-0&49999967&-9&62&-07&7&99&-04&-0&49999995&-1&80&-07&2&87&-07\\
-			 8&-0&49999990&-2&40&-07&3&99&-04&-0&49999999&-3&77&-08&3&40&-08\\
-			 9&-0&49999997&-5&96&-08&2&00&-04&
-			\multicolumn{2}{c|}{}&\multicolumn{3}{c|}{}&\multicolumn{3}{c|}{}\\
-			10&-0&49999998&-1&54&-08&9&98&-05&
-			\multicolumn{2}{c|}{}&\multicolumn{3}{c|}{}&\multicolumn{3}{c|}{}\\
-			11&-0&49999999&-3&83&-09&4&99&-05&
-			\multicolumn{2}{c|}{}&\multicolumn{3}{c|}{}&\multicolumn{3}{c|}{}\\
-			\hline
-			Exact&-0&50000000&
-			\multicolumn{3}{c|}{}&
-			\multicolumn{3}{c|}{}&
-			-0&50000000&
-			\multicolumn{3}{c|}{}&
-			\multicolumn{3}{c|}{}\\
-			\hline
-		\end{tabular}
-	\end{table}
-	\tiny \it{R. J. Harrison; "Krylov subspace Accelerated Inexact Newton method for linear
-	    and nonlinear equations", JCC (2004)}
-\end{frame}
-%
-%\begin{frame}
-%	\frametitle{Hydrogen ground state}
-%	\only<1>{\includegraphics[bb = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_1.pdf}}
-%	\only<2>{\includegraphics[bb = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_2.pdf}}
-%	\only<3>{\includegraphics[bb = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_3.pdf}}
-%	\only<4>{\includegraphics[bb = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_4.pdf}}
-%	\only<5>{\includegraphics[bb = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_5.pdf}}
-%	\only<6>{\includegraphics[bb = 50 430 300 640, clip, scale=1.2]{figures/s1Orb_10.pdf}}
-%\end{frame}
 
 \begin{frame}
     \frametitle{DFT in the MW basis}
