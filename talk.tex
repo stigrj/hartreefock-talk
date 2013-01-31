@@ -1,5 +1,16 @@
+\pagenumbering{arabic}
+%\documentclass[slides]{beamer}
 \documentclass[mathserif]{beamer}
-\usepackage[framesassubsections]{beamerprosper}
+%\documentclass[slides,hyperref={pdfpagelabels=false}]{beamer}
+%\documentclass[handout,gray]{beamer}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp}
+\usepackage{verbatim}
+\usepackage{amsbsy}
+\usepackage{multicol}
+\usepackage{booktabs} % Make some nice tables
+\usepackage{ae,aecompl}
 
 %%%%%%%%%%%% COULEURS %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -7,71 +18,71 @@
 {
   \definecolor{beamerstructure}{RGB}{43,79,112}
   \definecolor{sidebackground}{RGB}{230,242,250}
+  \definecolor{CTCC}{RGB}{133,188,228}
   \color{beamerstructure}
-  \usetheme{Boadilla}
+  \usetheme{default}
   \usepackage{courier}
   \beamertemplateballitem
+\setbeamertemplate{navigation symbols}{}
+%\setbeamertemplate{sidebar left}{\thispdfpagelabel{\insertframenumber}}
+%\setbeamertemplate{footline}{\quad\insertframenumber}
+%\usecolortheme{CTCC}
 }
-\usebackgroundtemplate{\includegraphics[width=1.02\paperwidth]{../templets/CTCCGeneral.png}}
+\usebackgroundtemplate{\includegraphics[width=1.02\paperwidth]{../templets/ctcc_general.jpg}}
+
+\title{\\\vspace{1cm}
+Low-scaling Hartree-Fock theory \\
+using multiwavelets}
+%\subtitle{\textcolor{magenta}{My subtitle (if applicable)}}
+\author{Stig Rune Jensen}
+\institute[CTCC]{\\[-6mm]stig.r.jensen@uit.no\\[6mm]University of Troms\o\\[6mm]
+\includegraphics[height=1.5cm]{../templets/uio.pdf}\hspace{1cm} 
+\includegraphics[height=1.5cm]{../templets/sff.pdf}\hspace{1cm}
+\includegraphics[height=1.5cm]{../templets/uit.pdf}}
+\date{Gran, \today}
+
+\newcommand{\gb}[1]{green!#1!black}
+\newcommand{\rb}[1]{red!#1!black}
+\newcommand{\bb}[1]{blue!#1!black}
+\newcommand{\coleq}{red!60!black}
+\newcommand{\du}{\textrm{d}}
 
 \usepackage{multicol}
-\title{$\;$\\$\;$\\$\;$\\$\;$\\\textcolor{blue}
-							{Low scaling Hartree-Fock}}
-\subtitle{$\;$\textcolor{blue}
-							{using multiwavelets}}
-\author{Stig Rune Jensen}
-\institution[CTCC UiT]{\includegraphics[width=2cm]{../templets/uio.png}\hspace{2cm}
-\includegraphics[width=2cm]{../templets/NCE.png}
-\hspace{2cm}\includegraphics[width=2cm]{../templets/uit.pdf}}
-\slideCaption{Senja, \today}
-\DefaultTransition{Blinds}
-
 \newcommand{\mydef}{\stackrel{\text{def}}{\hbox{=}}} 
 
 \begin{document}
 
 \footnotesize
+\setlength{\unitlength}{\textwidth}
 
 {
-\usebackgroundtemplate{\includegraphics[width=1.02\paperwidth]{../templets/CTCCForside.png}}
+\usebackgroundtemplate{\includegraphics[width=1.02\paperwidth]{../templets/ctcc_forside.jpg}}
 \maketitle
 }
 
 \begin{frame}
-	\frametitle{Outlook}
-	\begin{itemize}
-		\item Why low-scaling?
-		\item The multiwavelet basis
-		\begin{itemize}
-			\scriptsize
-			\item Functions
-			\item Operators
-		\end{itemize}
-		\ \\
-		\ \\
-		\item Hartree-Fock in the MW basis
-		\begin{itemize}
-			\scriptsize
-			\item Hartree-Fock equations
-			\item The exchange operator
-			\item Canonical orbitals
-			\item Localized orbitals
-		\end{itemize}
-		\ \\
-		\ \\
-		\item Results
-		\begin{itemize}
-			\scriptsize
-			\item Scaling canonical orbitals
-			\item Scaling localized orbitals
-			\item Accurate calculations
-		\end{itemize}
-	\end{itemize}
+    \frametitle{Why low-scaling?}
+	\begin{center}
+	\includegraphics[bb = 80 430 530 750, clip, scale=0.5]{figures/xkcd.pdf}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Outlook}
+    \begin{itemize}
+	\item The multiwavelet basis
 	\ \\
 	\ \\
-	\tiny
-	\it{R. J. Harrison et al.; "Multiresolution Quantum Chemistry: Hartree-Fock exchange,
-		JCP (2004)}
+	\item Hartree-Fock theory in the MW basis
+	\ \\
+	\ \\
+	\item Localization of orbitals
+	\ \\
+	\ \\
+	\item Results
+    \end{itemize}
+    \ \\
+    \ \\
 \end{frame}
 
 \begin{frame}
@@ -81,7 +92,7 @@
     \begin{columns}
     \begin{column}{.48\textwidth}
 	\begin{itemize}
-	   \item Polynomial basis
+	    \item Polynomial basis
 	    \item 3D space divided in cubic cells
 	\end{itemize}
     \end{column}%
@@ -100,21 +111,6 @@
     \end{center}
 \end{frame}
 
-%\begin{frame}
-%	\frametitle{Why low-scaling?}
-%	XKCD plot
-%\end{frame}
-
-%\begin{frame}
-%    \frametitle{Functions in the MW basis}
-%    \only<1>{\includegraphics[scale=0.37]{figures/f0.pdf}}
-%    \only<2>{\includegraphics[scale=0.37]{figures/f1.pdf}}
-%    \only<3>{\includegraphics[scale=0.37]{figures/f2.pdf}}
-%    \only<4>{\includegraphics[scale=0.37]{figures/f3.pdf}}
-%    \only<5>{\includegraphics[scale=0.37]{figures/f4.pdf}}
-%    \only<6>{\includegraphics[scale=0.37]{figures/f5.pdf}}
-%\end{frame}
-
 \begin{frame}
     \frametitle{Operators in the MW basis}
     MW basis well suited for applying integral operators
@@ -129,12 +125,15 @@
     \pause
     \begin{columns}
     \begin{column}{.48\textwidth}
+    \ \\
+    \ \\
     \begin{itemize}
-	\item Poisson kernel (electrostatics)
+	\item Poisson kernel (electrostatics \\
+	    and Hartree-Fock exchange) \\
 	    \ \\
+	\item Bound State Helmholtz (BSH) \\
+	    kernel (Hartree-Fock equations) \\
 	    \ \\
-	    \ \\
-	\item Bound State Helmholtz (BSH) kernel (Kohn-Sham equations)
     \end{itemize}
     \end{column}
     \begin{column}{.48\textwidth}
@@ -148,625 +147,174 @@
     \ \\
     \begin{equation}
 	\nonumber
-	H^{\mu}(\boldsymbol{r}-\boldsymbol{r}') = \frac{1}{4\pi}\ 
-	    \frac{e^{-\mu |\boldsymbol{r}-\boldsymbol{r}'|}}{|\boldsymbol{r}-\boldsymbol{r}'|}
+	H^{\epsilon}(\boldsymbol{r}-\boldsymbol{r}') = \frac{1}{4\pi}\ 
+	    \frac{e^{-\sqrt{-2\epsilon} |\boldsymbol{r}-\boldsymbol{r}'|}}{|\boldsymbol{r}-\boldsymbol{r}'|}
     \end{equation}
     \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}
-	\frametitle{DFT in the MW basis}
-	Kohn-Sham equations for orbitals $\phi_i$ of energy $\epsilon_i$
-	\begin{align}
-		\nonumber
-		\big[-\frac{1}{2}\nabla^2 + V_{eff}(\boldsymbol{r})\big]
-		\phi_i(\boldsymbol{r}) =&\ \epsilon_i \phi(\boldsymbol{r})\ \ \ \ \ \ \ \ \ \ \ \ 
-		\ \ \ \ \ \ \ \ \ \ \ \ \ \ \mu_i = \sqrt{-2\epsilon_i}\\
-		\nonumber
-		\ & \ \\
-		\nonumber
-		\big[-\nabla^2 + \mu_i^2\big]\phi_i(\boldsymbol{r}) =&\ 
-		    -2\ V_{eff}(\boldsymbol{r})\ \phi_i(\boldsymbol{r})\\
-		\nonumber
-		\phi_i(\boldsymbol{r}) =&\ -2\int H^{\mu_i}(\boldsymbol{r}-\boldsymbol{r}')\
-		    \Big[V_{eff}(\boldsymbol{r}')\ \phi_i(\boldsymbol{r}')\Big] d\boldsymbol{r}'
-		%\nonumber
-		%\phi(\boldsymbol{r}) =&\ \hat{H} \Big[V_{eff}(\boldsymbol{r}')\ 
-		%    \phi(\boldsymbol{r}')\Big]
-	\end{align}
-	\ \\
-	\ \\
-	using the BSH Green's kernel.\\
-	\ \\
-	\pause
-	Solved self-consistently by straightforward iteration\\
-	\begin{equation}
-	    \nonumber
-	    \phi^{n+1}_i(\boldsymbol{r}) =\ -2\int H^{\mu^n_i}(\boldsymbol{r}-\boldsymbol{r}')\
-		\Big[V^n_{eff}(\boldsymbol{r}')\ \phi^n_i(\boldsymbol{r}')\Big] d\boldsymbol{r}'
-	\end{equation}
-	\ \\
-	\ \\
-	\tiny \it{M. H. Kalos; "Monte Carlo calculations of the ground state of three- and 
+    \frametitle{Hartree-Fock theory in the MW basis}
+    Hartree-Fock equations for orbitals $\phi_i$ with energy $\epsilon_i$
+    \begin{align}
+	\nonumber
+	\Big[-\frac{1}{2}\nabla^2 + V_{eff}(\boldsymbol{r}) + \hat{K}\Big]
+	\phi_i(\boldsymbol{r}) =&\ \epsilon_i \phi(\boldsymbol{r})\\
+	\nonumber
+	\ & \ \\
+	\nonumber
+	\Big[-\nabla^2 - 2\epsilon_i\Big]\phi_i(\boldsymbol{r}) =&\ 
+	    -2\ \Big(V_{eff}(\boldsymbol{r})+\hat{K}\Big)\phi_i(\boldsymbol{r})\\
+	\nonumber
+	\phi_i(\boldsymbol{r}) =&\ -2\int H^{\epsilon_i}(\boldsymbol{r}-\boldsymbol{r}')\
+	    \Big[\Big(V_{eff}(\boldsymbol{r}') + \hat{K}\Big) 
+	    \phi_i(\boldsymbol{r}')\Big] d\boldsymbol{r}'
+    \end{align}
+    \ \\
+    \ \\
+    using the BSH Green's kernel.\\
+    \ \\
+    \pause
+    Solved self-consistently by straightforward iteration\\
+    \begin{equation}
+        \nonumber
+        \phi^{n+1}_i(\boldsymbol{r}) =\ 
+	    -2\int H^{\epsilon^n_i}(\boldsymbol{r}-\boldsymbol{r}')\ \Big[\Big(V^n_{eff}
+	    (\boldsymbol{r}') + \hat{K}\Big) \phi^n_i(\boldsymbol{r}')\Big] 
+	    d\boldsymbol{r}'
+    \end{equation}
+    \ \\
+    \ \\
+    \tiny \it{M. H. Kalos; "Monte Carlo calculations of the ground state of three- and 
 	    four-body nuclei", Physical Review (1962)}
 \end{frame}
 
 \begin{frame}
-    \frametitle{DFT in the MW basis}
-    For many-electron systems in DFT the effective potential is given
-    \begin{equation}
-	\nonumber
-	V_{eff} = V_{nuc} + V_{coul} + V_{xc}
-    \end{equation}
-    \ \\
-    \ \\
-    \ \\
-    \pause
-    The Coulomb potential is given by the Poisson equation 
+    \frametitle{Coulomb potential}
+    The Coulomb potential is given by the Poisson operator
     \begin{equation}
 	\nonumber
 	V_{coul}(\boldsymbol{r}) = 
-	\int
-	P(\boldsymbol{r} - \boldsymbol{r}') \Big[ \rho(\boldsymbol{r}')\Big] d\boldsymbol{r}'
+	    \int P(\boldsymbol{r} - \boldsymbol{r}') \Big[ \rho(\boldsymbol{r}')\Big] 
+	    d\boldsymbol{r}'
     \end{equation}
+    \ \\
+    \ \\
+    \pause
+    Coulomb potential of diamond clusters $C_{(2n+3)(n+2)(n+1)/6}H_{2(n+2)(n+1)}$
+    \begin{center}
+    \includegraphics[bb = 50 400 500 690, clip, scale=0.5]{figures/coulombScaling.pdf}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Hartree-Fock exchange}
+    The Exchange operator can be decomposed into a sum of Poisson operators
+    \begin{equation}
+	\nonumber
+	\hat{K}\phi_i(\boldsymbol{r}) = \sum_{j=0}^{N_{occ}} \phi_j(\boldsymbol{r})
+	    \int P(\boldsymbol{r} - \boldsymbol{r}') \Big[ \phi_i(\boldsymbol{r}')
+	    \phi_j(\boldsymbol{r}')\Big] d\boldsymbol{r}'
+    \end{equation}
+    Linear scaling Poisson operator yields quadratic scaling Exchange operator.
+    \ \\
+    \ \\
     \ \\
     \ \\
     \ \\
     \pause
-    The XC potential is given as the functional derivative
+    Localization of orbitals should reduce the scaling but complicates the Hartree-Fock equations
+    because of a non-diagonal Fock matrix\\
+    \ \\
     \begin{equation}
 	\nonumber
-	V_{xc} \ \ \ = \ \ \ \frac{\delta E_{xc}[\rho]}{\delta \rho(\boldsymbol{r})}
-	       \ \ \ = \ \ \ \frac{\partial F}{\partial \rho} - 
-		    \nabla \frac{\partial F}{\partial \nabla \rho}
+	\phi_i(\boldsymbol{r}) =\ -2\int H^{\epsilon_i}(\boldsymbol{r}-\boldsymbol{r}')\
+	    \Big[\Big(V_{eff}(\boldsymbol{r}') + \hat{K}\Big) 
+	    \phi_i(\boldsymbol{r}') + \sum_{i\neq j} F_{ij}\phi_j(\boldsymbol{r}')\Big] d\boldsymbol{r}'
     \end{equation}
-    which is calculated on its own multiresolution grid using XCFun\\
+\end{frame}
+
+\begin{frame}
+    \frametitle{Localization of orbitals}
+    The Foster-Boys algorithm calculates the unitary transformation
+    that maximizes the separation between orbitals by the measure
+    \begin{equation}
+	\nonumber
+	L = \sum_{i=0}^{N_{occ}} \Big(
+		\langle\phi_i|r_x|\phi_i\rangle^2 + 
+		\langle\phi_i|r_y|\phi_i\rangle^2 + 
+		\langle\phi_i|r_z|\phi_i\rangle^2 \Big)
+    \end{equation}
+    \begin{columns}
+    \begin{column}{.48\textwidth}
+	\begin{center}
+	\includegraphics[bb = 60 150 820 670, clip, scale=0.2]{figures/canonical.pdf}
+	\end{center}
+    \end{column}
+    \begin{column}{.48\textwidth}
+	\begin{center}
+	\includegraphics[bb = 60 150 820 670, clip, scale=0.2]{figures/localized.pdf}
+	\end{center}
+    \end{column}
+    \end{columns}
     \ \\
-    \tiny
-    \it{Ulf Ekstr\"{o}m et. al.; "Arbitrary-Order Density Functional Response Theory from 
-	Automatic Differentiation", JCTC (2010)}
-\end{frame}
-
-%\begin{frame}
-%    \frametitle{XC functionals}
-%    For LDA functionals, $F$ is only a function of the density $\rho$ and we have simply
-%    \begin{equation}
-%	\nonumber
-%	V_{xc} \ \ \ = \ \ \ \frac{\delta E_{xc}[\rho]}{\delta \rho(\boldsymbol{r})} 
-%	       \ \ \ = \ \ \ \frac{\partial F}{\partial \rho}
-%    \end{equation}
-%    which is calculated point-by-point on the multiresolution grid using XCFun 
-%    \begin{equation}
-%	\nonumber
-%	\rho(\boldsymbol{r}_i) \ \ \ \ \Longrightarrow \ \ \ \ 
-%	XCFun \ \ \ \ \Longrightarrow \ \ \ \ V_{xc}(\boldsymbol{r}_i)
-%    \end{equation}
-%    \\
-%    \ \\
-%    \ \\
-%    For GGA functionals, $F$ is also a function of the density gradient $\nabla\rho$, and
-%    we have
-%    \begin{equation}
-%	\nonumber
-%	V_{xc} \ \ \ = \ \ \ \frac{\delta E_{xc}[\rho]}{\delta \rho(\boldsymbol{r})} 
-%	       \ \ \ = \ \ \ \frac{\partial F}{\partial \rho} - 
-%		    \nabla \frac{\partial F}{\partial \nabla \rho}
-%    \end{equation}
-%    where the energy derivatives are calculated pointwise by XCFun
-%    \begin{equation}
-%	\nonumber
-%	\Big(\rho, \nabla \rho\Big) \ \ \ \ \Longrightarrow 
-%	\ \ \ \ XCFun \ \ \ \ \Longrightarrow \ \ \ \ 
-%	\Bigg(\frac{\partial F}{\partial \rho}, 
-%	\frac{\partial F}{\partial \nabla \rho}\Bigg)
-%    \end{equation}
-%\end{frame}
-
-\begin{frame}
-    \frametitle{SCF algorithm}
-    \begin{itemize}
-	\pause
-	\item Calculate electron density
-	    \begin{equation}
-		\nonumber
-		\rho^n(\boldsymbol{r}) = \sum_i ||\phi^n_i(\boldsymbol{r})||^2
-	    \end{equation}
-	\pause
-	\item Calculate Coulomb potential
-	    \begin{equation}
-		\nonumber
-		V^n_{coul}(\boldsymbol{r}) = 
-		\int P(\boldsymbol{r} - \boldsymbol{r}') 
-		\Big[ \rho^n(\boldsymbol{r}')\Big] d\boldsymbol{r}'
-	    \end{equation}
-	\pause
-	\item Calculate XC potential
-	    \begin{equation}
-		\nonumber
-		V^n_{xc} \ \ \ = \ \ \ \frac{\partial F}{\partial \rho} - 
-		    \nabla \frac{\partial F}{\partial \nabla \rho}
-	    \end{equation}
-	\pause
-	\item Calculate effective potential
-	    \begin{equation}
-		\nonumber
-		V^n_{eff} = V_{nuc} + V^n_{coul} + V^n_{xc}
-	    \end{equation}
-    \end{itemize}
+    \ \\
+    \tiny \it{J.M.Foster and S.F.Boys; "Canonical Configurational Interaction Procedure" 
+	    , Reviews of Modern Physics (1960)}
 \end{frame}
 
 \begin{frame}
-    \frametitle{SCF algorithm}
-    \begin{itemize}
-	\item Apply Helmholtz operator to all orbitals
-	    \begin{equation}
-		\nonumber
-		\phi^{n+1}_i(\boldsymbol{r}) =\ -2\int H^{\mu}(\boldsymbol{r}-\boldsymbol{r}')\
-		\Big[V^n_{eff}(\boldsymbol{r}')\ \phi^n_i(\boldsymbol{r}')\Big] d\boldsymbol{r}'
-	    \end{equation}
-	\pause
-	\item Calculate Fock (Kohn-Sham) matrix update
-	    \begin{equation}
-		\nonumber
-		\Delta F^n_{ij} = < \phi^{n+1}_i | V^n_{eff} | \Delta \phi^{n}_j >
-		+ < \phi^{n+1}_i | \Delta V^n_{eff} | \phi^{n}_j >
-	    \end{equation} 
-		\ \\
-		\ \\
-	\pause
-	\item Diagonalize Fock (Kohn-Sham) matrix (occupied orbitals only)\\
-		\ \\
-		\ \\
-	\pause
-	\item Calculate iterative subspace update (DIIS or KAIN)\\
-		\ \\
-		\ \\
-	\pause
-	\item Test for convergence
-	    \begin{equation}
-		\nonumber
-		||\Delta\phi_i||\ \ \ <\ \ \ \epsilon
-	    \end{equation}
-    \end{itemize}
+    \frametitle{Results SCF scaling}
+    \begin{center}
+    \includegraphics[bb = 50 480 600 700, clip, scale=0.6]{figures/SCFscaling_1.pdf}
+    \end{center}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Results LDA}
-	\begin{table}
-		\tiny
-		\centering
-		\begin{tabular}{|l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|}
-			\multicolumn{11}{c}{Beryllium}\\
-			\hline
-			&
-			\multicolumn{2}{c|}{$E_{kin}$}&
-			\multicolumn{2}{c|}{$E_{coul}$}&
-			\multicolumn{2}{c|}{$E_{nuc}$}&
-			\multicolumn{2}{c|}{$E_{xc}$}&
-			\multicolumn{2}{c|}{$E_{tot}$}\\
-			\hline
-			MRCPP $\epsilon = 10^{-3}$&
-			 14&308541&
-			  7&114119&
-			-33&355055&
-			 -2&514486&
-			-14&446881\\
-			MRCPP $\epsilon = 10^{-5}$&
-			 14&309439&
-			  7&115293&
-			-33&357082&
-			 -2&514865&
-			-14&447215\\
-			MRCPP $\epsilon=10^{-7}$&
-			 14&309424&
-			  7&115258&
-			-33&357035&
-			 -2&514856&
-			-14&447209\\
-			\hline
-			NIST&
-			14&309424&
-			7&115257&
-			-33&357034&
-			-2&514856&
-			-14&447209\\
-			\hline
-			\multicolumn{11}{c}{}\\
-			\multicolumn{11}{c}{Magnesium}\\
-			\hline
-			&
-			\multicolumn{2}{c|}{$E_{kin}$}&
-			\multicolumn{2}{c|}{$E_{coul}$}&
-			\multicolumn{2}{c|}{$E_{nuc}$}&
-			\multicolumn{2}{c|}{$E_{xc}$}&
-			\multicolumn{2}{c|}{$E_{tot}$}\\
-			\hline
-			MRCPP $\epsilon=10^{-3}$&
-			 198&582318&
-			  95&646098&
-			-477&909889&
-			 -15&453592&
-			-199&135065\\
-			MRCPP $\epsilon=10^{-5}$&
-			 198&541702&
-			  95&673757&
-			-477&899789&
-			 -15&455091&
-			-199&139422\\
-			MRCPP $\epsilon=10^{-7}$&
-			 198&541504&
-			  95&673292&
-			-477&899151&
-			 -15&455051&
-			-199&139406\\
-			\hline
-			NIST&
-			 198&541505&
-			  95&673290&
-			-477&899149&
-			 -15&455051&
-			-199&139406\\
-			\hline
-			\multicolumn{11}{c}{}\\
-			\multicolumn{11}{c}{Calcium}\\
-			\hline
-			&
-			\multicolumn{2}{c|}{$E_{kin}$}&
-			\multicolumn{2}{c|}{$E_{coul}$}&
-			\multicolumn{2}{c|}{$E_{nuc}$}&
-			\multicolumn{2}{c|}{$E_{xc}$}&
-			\multicolumn{2}{c|}{$E_{tot}$}\\
-			\hline
-			MRCPP $\epsilon=10^{-3}$&
-			  674&887364&
-			  284&820588&
-			-1601&380157&
-			  -34&130494&
-			 -675&802699\\
-			MRCPP $\epsilon=10^{-5}$&
-			  674&657663&
-			  285&212726&
-			-1601&469778&
-			  -34&142858&
-			 -675&742247\\
-			MRCPP $\epsilon=10^{-7}$&
-			  674&657342&
-			  285&205958&
-			-1601&463058&
-			  -34&142531&
-			 -675&742289\\
-			\hline
-			NIST&
-			  674&657334&
-			  285&206130&
-			-1601&463209&
-			  -34&142538&
-			 -675&742283\\
-			\hline
-		\end{tabular}
-	\end{table}
-	\tiny
-	\it{NIST: National Institute of Standards and Technology (Basis set limit)}\\
+    \frametitle{Results SCF scaling}
+    \begin{center}
+    \includegraphics[bb = 50 480 600 700, clip, scale=0.6]{figures/SCFscaling_2.pdf}
+    \end{center}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Results LSDA}
-	\begin{table}
-		\tiny
-		\centering
-		\begin{tabular}{|l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|r@{.}l|}
-			\multicolumn{11}{c}{Hydrogen}\\
-			\hline
-			&
-			\multicolumn{2}{c|}{$E_{kin}$}&
-			\multicolumn{2}{c|}{$E_{coul}$}&
-			\multicolumn{2}{c|}{$E_{nuc}$}&
-			\multicolumn{2}{c|}{$E_{xc}$}&
-			\multicolumn{2}{c|}{$E_{tot}$}\\
-			\hline
-			MRCPP $\epsilon=10^{-3}$&
-			  0&466318&
-			  0&298353&
-			 -0&965303&
-			 -0&278020&
-			 -0&478658\\
-			MRCPP $\epsilon=10^{-5}$&
-			  0&466642&
-			  0&298376&
-			 -0&965618&
-			 -0&278071&
-			 -0&478671\\
-			MRCPP $\epsilon=10^{-7}$&
-			  0&466643&
-			  0&298377&
-			 -0&965619&
-			 -0&278072&
-			 -0&478671\\
-			\hline
-			%&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}\\
-			NIST&
-			  0&466643&
-			  0&298377&
-			 -0&965619&
-			 -0&278072&
-			 -0&478671\\
-			\hline
-			\multicolumn{11}{c}{}\\
-			\multicolumn{11}{c}{Lithium}\\
-			\hline
-			&
-			\multicolumn{2}{c|}{$E_{kin}$}&
-			\multicolumn{2}{c|}{$E_{coul}$}&
-			\multicolumn{2}{c|}{$E_{nuc}$}&
-			\multicolumn{2}{c|}{$E_{xc}$}&
-			\multicolumn{2}{c|}{$E_{tot}$}\\
-			\hline
-			MRCPP $\epsilon=10^{-3}$&
-			  7&252927&
-			  4&007635&
-			-16&948114&
-			 -1&665465&
-			 -7&353018\\
-			MRCPP $\epsilon=10^{-5}$&
-			  7&249977&
-			  4&009382&
-			-16&938094&
-			 -1&665217&
-			 -7&343952\\
-			MRCPP $\epsilon=10^{-7}$&
-			  7&249890&
-			  4&009255&
-			-16&937914&
-			 -1&665188&
-			 -7&343957\\
-			\hline
-			%&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}\\
-			NIST&
-			  7&249892&
-			  4&009258&
-			-16&937918&
-			 -1&665189&
-			 -7&343957\\
-			\hline
-			\multicolumn{11}{c}{}\\
-			\multicolumn{11}{c}{Sodium}\\
-			\hline
-			&
-			\multicolumn{2}{c|}{$E_{kin}$}&
-			\multicolumn{2}{c|}{$E_{coul}$}&
-			\multicolumn{2}{c|}{$E_{nuc}$}&
-			\multicolumn{2}{c|}{$E_{xc}$}&
-			\multicolumn{2}{c|}{$E_{tot}$}\\
-			\hline
-			MRCPP $\epsilon=10^{-3}$&
-			 160&823016&
-			  79&743411&
-			-388&487231&
-			 -13&529206&
-			-161&450010\\
-			MRCPP $\epsilon=10^{-5}$&
-			 160&907546&
-			  79&786821&
-			-388&608260&
-			 -13&533898&
-			-161&447792\\
-			MRCPP $\epsilon=10^{-7}$&
-			 160&907245&
-			  79&784965&
-			-388&606077&
-			 -13&533762&
-			-161&447629\\
-			\hline
-			%&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}&
-			%\multicolumn{2}{c|}{}\\
-			NIST&
-			 160&907255&
-			  79&784904&
-			-388&606022&
-			 -13&533763&
-			-161&447625\\
-			\hline
-		\end{tabular}
-	\end{table}
-	\tiny
-	\it{NIST: National Institute of Standards and Technology (Basis set limit)}\\
-\end{frame}
+    \frametitle{Results Hartree-Fock}
+\begin{table}
+\tiny
+\begin{tabular}{|c|l|l|l|l|}
+\hline Precision     &       H$_2$O &    H$_2$O$_2$ &        HO$_2$ &       O$_2$  \\
+\hline MRChem 1.0e-3 & -76.05840640 &  -150.8522985 &  -150.2428723 & -149.7056974 \\
+       MRChem 1.0e-5 & -76.06751971 &  -150.8524789 &  -150.2526754 & -149.6915243 \\
+       MRChem 1.0e-7 & -76.06753543 &  -150.8524702 &               & -149.6915412 \\
+\hline Est. HF limit & -76.0675     &  -150.8525    &  -150.2527    & -149.6915    \\
+\hline aug-cc-pCV5Z  & -76.06737937 &  -150.8521878 &  -150.2523966 & -149.6912672 \\
+       aug-cc-pCVQZ  & -76.06614045 &  -150.8498523 &  -150.2500956 & -149.6890072 \\
+\hline \multicolumn{5}{c}{} \\
+       \multicolumn{5}{c}{} \\
+\hline Precision     &            C &            CO &        CO$_2$ &   C$_2$H$_2$ \\
+\hline MRChem 1.0e-3 & -37.69495687 &  -112.7914472 &  -187.7260422 & -76.85729121 \\
+       MRChem 1.0e-5 & -37.69372029 &  -112.7908295 &  -187.7255974 & -76.85533980 \\
+       MRChem 1.0e-7 & -37.69374021 &  -112.7908124 &  -187.7253585 & -76.85558532 \\
+\hline Est. HF limit & -37.6937     &  -112.7908    &  -187.7254    & -76.8556     \\
+\hline aug-cc-pCV5Z  & -37.69369434 &  -112.7906351 &  -187.7250832 & -76.85546957 \\
+       aug-cc-pCVQZ  & -37.69338369 &  -112.7891929 &  -187.7226043 & -76.85463825 \\
+\hline   \end{tabular} 
+\end{table}
+    \ \\
+    \ \\
+    \ \\
+    \tiny \it{Michael Harding et.al; "High-accuracy extrapolated ab-initio 
+	    thermochemistry", Journal of Chemical Physics (2008)}
 
-\begin{frame}
-	\frametitle{Results LDA}
-	\begin{table}
-		\tiny
-		\centering
-		\begin{tabular}{|l|r@{.}lr@{.}l|r@{.}lr@{.}l|r@{.}lr@{.}l|}
-			\hline&
-			\multicolumn{4}{c|}{Helium}&
-			\multicolumn{4}{c|}{Neon}&
-			\multicolumn{4}{c|}{Argon}\\
-			&
-			\multicolumn{2}{c}{HOMO}&
-			\multicolumn{2}{c|}{Total}&
-			\multicolumn{2}{c}{HOMO}&
-			\multicolumn{2}{c|}{Total}&
-			\multicolumn{2}{c}{HOMO}&
-			\multicolumn{2}{c|}{Total}\\
-			\hline
-			MRCPP $\epsilon=10^{-3}$&
-			  -0&570467&
-			  -2&8348568&
-			  -0&496833&
-			-128&262186&
-			  -0&387692&
-			-525&966790\\
-			MRCPP $\epsilon=10^{-5}$&
-			  -0&570424&
-			  -2&8348352&
-			  -0&498035&
-			-128&233472&
-			  -0&382348&
-			-525&946109\\
-			MRCPP $\epsilon=10^{-7}$&
-			  -0&570425&
-			  -2&8348836&
-			  -0&498034&
-			-128&233481&
-			  -0&382330&
-			-525&946196\\
-			\hline
-			&\multicolumn{4}{c|}{}&
-			\multicolumn{4}{c|}{}&
-			\multicolumn{4}{c|}{}\\
-			NIST&
-			  -0&570425&
-			  -2&8348836&
-			  -0&498034&
-			-128&233481&
-			  -0&382330&
-			-525&946195\\
-			&\multicolumn{4}{c|}{}&
-			\multicolumn{4}{c|}{}&
-			\multicolumn{4}{c|}{}\\
-			\hline
-			aug-cc-pV6Z&
-			  -0&570424&
-			  -2&8348289&
-			  -0&498027&
-			-128&233402&
-			  -0&382323&
-			-525&944181\\
-			aug-cc-pV5Z&
-			  -0&570417&
-			  -2&8347859&
-			  -0&498059&
-			-128&232889&
-			  -0&382388&
-			-525&942021\\
-			aug-cc-pVQZ&
-			  -0&570406&
-			  -2&8346891&
-			  -0&498302&
-			-128&229212&
-			  -0&382463&
-			-525&938021\\
-			aug-cc-pVTZ&
-			  -0&570260&
-			  -2&8343489&
-			  -0&498859&
-			-128&218459&
-			  -0&382838&
-			-525&933682\\
-			aug-cc-pVDZ&
-			  -0&569386&
-			  -2&8291516&
-			  -0&498201&
-			-128&176831&
-			  -0&382143&
-			-525&915702\\
-			\hline
-		\end{tabular}
-	\end{table}
-	\tiny
-	\it{NIST: National Institute of Standards and Technology (Basis set limit)}\\
-	\ \\
-	\it{Gaussian basis calculations using Dalton}\\
-\end{frame}
-
-\begin{frame}
-	\frametitle{Results GGA (BLYP)}
-	\begin{table}
-		\tiny
-		\centering
-		\begin{tabular}{|l|r@{.}lr@{.}l|r@{.}lr@{.}l|r@{.}lr@{.}l|}
-			\hline&
-			\multicolumn{4}{c|}{$H_2O$}&
-			\multicolumn{4}{c|}{$HF$}&
-			\multicolumn{4}{c|}{$CH_4$}\\
-			&
-			\multicolumn{2}{c}{HOMO}&
-			\multicolumn{2}{c|}{Total}&
-			\multicolumn{2}{c}{HOMO}&
-			\multicolumn{2}{c|}{Total}&
-			\multicolumn{2}{c}{HOMO}&
-			\multicolumn{2}{c|}{Total}\\
-			\hline
-			MRChem $10^{-3}$&
-			  -0&264131&
-			 -76&464947&
-			  -0&354420&
-			-100&486162&
-			  -0&344604&
-			 -40&504147\\
-			MRChem $10^{-5}$&
-			  -0&264216&
-			 -76&457984&
-			  -0&354356&
-			-100&491110&
-			  -0&344899&
-			 -40&506028\\
-			&\multicolumn{4}{c|}{}&
-			\multicolumn{4}{c|}{}&
-			\multicolumn{4}{c|}{}\\
-			aug-cc-pV6Z&
-			  -0&264209&
-			 -76&457838&
-			  -0&354352&
-			-100&490940&
-			  -0&344865&
-			 -40&505846\\
-			aug-cc-pV5Z&
-			  -0&264209&
-			 -76&457491&
-			  -0&354359&
-			-100&490521&
-			  -0&344862&
-			 -40&505619\\
-			aug-cc-pVQZ&
-			  -0&264217&
-			 -76&455579&
-			  -0&354389&
-			-100&487953&
-			  -0&344838&
-			 -40&504437\\
-			aug-cc-pVTZ&
-			  -0&264128&
-			 -76&449242&
-			  -0&354418&
-			-100&479488&
-			  -0&344651&
-			 -40&500955\\
-			aug-cc-pVDZ&
-			  -0&263391&
-			 -76&426610&
-			  -0&353450&
-			-100&451643&
-			  -0&343988&
-			 -40&481332\\
-			\hline
-		\end{tabular}
-	\end{table}
-	\tiny
-	\it{Gaussian basis calculations using Dalton}\\
 \end{frame}
 
 \begin{frame}
     \frametitle{Conclusions}
     We can
     \begin{itemize}
-	\item do Hartree-Fock
+	\item \textcolor{red}{work with localized orbitals}
+	\item do \textcolor{red}{low-scaling} Hartree-Fock
 	\item do DFT at LDA and GGA level
 	\item do both closed- and open-shell systems
 	\item obtain basis set limit results for small molecular systems
@@ -794,6 +342,7 @@
     High performance computing:
     \begin{itemize}
     	\item Jonas Juselius
+    	\item Peter Wind
     \end{itemize}
     \ \\
     \ \\
